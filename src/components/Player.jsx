@@ -1,11 +1,20 @@
 import { useState } from "react";
 
-export default function Player({ initialName, symbol, isActive }) {
+export default function Player({
+  initialName,
+  symbol,
+  isActive,
+  onNameChange,
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const [playerName, setPlayerName] = useState(initialName);
 
   const handleEditClick = () => {
-    setIsEditing((prev) => !prev); // this set isEditing to the opposite of the current state
+    setIsEditing((prev) => !prev);
+    if (isEditing) {
+      // When saving (finishing edit), pass the name up to parent
+      onNameChange(symbol, playerName);
+    }
   };
 
   const handleNameChange = (event) => {
