@@ -1,11 +1,10 @@
 import { useState } from "react";
 
-export default function Player({ initialName, symbol }) {
+export default function Player({ initialName, symbol, isActive }) {
   const [isEditing, setIsEditing] = useState(false);
   const [playerName, setPlayerName] = useState(initialName);
 
   const handleEditClick = () => {
-    console.log("clicked");
     setIsEditing((prev) => !prev); // this set isEditing to the opposite of the current state
   };
 
@@ -14,30 +13,24 @@ export default function Player({ initialName, symbol }) {
   };
 
   return (
-    <ol id="players">
-      <li>
-        <span className="player">
-          <span className="player-name">{playerName}</span>
-          <span className="player-symbol">{symbol} </span>
-        </span>
-        {isEditing ? (
-          <>
-            <input
-              type="text"
-              required
-              value={playerName}
-              onChange={handleNameChange}
-            />
-            <button mode="text" onClick={handleEditClick}>
-              Save
-            </button>
-          </>
-        ) : (
-          <button mode="text" onClick={handleEditClick}>
-            Edit
-          </button>
-        )}
-      </li>
-    </ol>
+    <li className={isActive ? "active" : undefined}>
+      <span className="player">
+        <span className="player-name">{playerName}</span>
+        <span className="player-symbol">{symbol}</span>
+      </span>
+      {isEditing ? (
+        <>
+          <input
+            type="text"
+            required
+            value={playerName}
+            onChange={handleNameChange}
+          />
+          <button onClick={handleEditClick}>Save</button>
+        </>
+      ) : (
+        <button onClick={handleEditClick}>Edit</button>
+      )}
+    </li>
   );
 }
